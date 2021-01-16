@@ -8,6 +8,7 @@ const {
   createLecture,
   updateLecture,
   deleteLecture,
+  uploadLecturePhoto,
 } = require("../controller/lectures");
 
 // /api/v1/lectures/:id/subjects
@@ -24,5 +25,6 @@ router
   .get(getLecture)
   .put(protect, authorize("admin", "operator"), updateLecture)
   .delete(protect, authorize("admin"), deleteLecture);
+router.route("/:id/photo").put(uploadLecturePhoto);
 
 module.exports = router;

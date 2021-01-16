@@ -1,3 +1,4 @@
+const path = require("path");
 const Lecture = require("../models/Lecture");
 const MyError = require("../utils/myError");
 const asyncHandler = require("express-async-handler");
@@ -70,5 +71,41 @@ exports.deleteLecture = asyncHandler(async (req, res, next) => {
   res.status(200).json({
     success: true,
     data: lecture,
+  });
+});
+
+// PUT: api/v1/lectures/:id/photo
+exports.uploadLecturePhoto = asyncHandler(async (req, res, next) => {
+  const lecture = await Lecture.findById(req.params.id);
+  if (!lecture) {
+    throw new MyError(req.params.id + " ID бүхий сургалт байхгүй.", 400);
+  }
+
+  // image upload
+  const file = req.files.file;
+
+  if (!file.mimetype.startsWith("image")) {
+    throw new MyError("Та зураг upoad хийнэ үү.", 400);
+  }
+  if (file.size > process.env.MAX_UPLOAD_FILE_SIZE) {
+    throw new MyError("Та зурагны хэмжээ хэтэрсэн байна.", 400);
+  }
+
+  file.name = `photo_${req.params.id}${path.parse(file.name).ext}`;
+  file.mv(`${process.env.FILE_UPLOAD_PATH}/image/${file.name}`, (err) => {
+    if (err) {
+      throw new MyError(
+        "Файл хуулах явцад алдаа гарлаа. Алдаа: " + err.message,
+        400
+      );
+    }
+
+    lecture.photo = file.name;
+    lecture.save();
+
+    res.status(200).json({
+      success: true,
+      data: file.name,
+    });
   });
 });

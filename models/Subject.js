@@ -30,7 +30,7 @@ const SubjectSchema = new mongoose.Schema(
     },
     lecturerPhoto: {
       type: String,
-      default: "no-photo.jpg",
+      default: "no-face.jpg",
     },
     content: {
       type: String,

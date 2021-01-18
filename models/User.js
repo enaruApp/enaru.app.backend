@@ -16,6 +16,10 @@ const UserSchema = new mongoose.Schema({
       "Имэйл хаяг буруу байна.",
     ],
   },
+  phone: {
+    type: String,
+    required: [true, "Хэрэглэгчийн утасны дугаар оруулна уу"],
+  },
   role: {
     type: String,
     required: [true, "Хэрэглэгчийн эрхийг оруулна уу"],

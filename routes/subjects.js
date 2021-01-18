@@ -8,6 +8,7 @@ const {
   deleteSubject,
   updateSubject,
   uploadSubjectPhoto,
+  uploadSubjectVideo,
 } = require("../controller/subjects");
 
 const router = express.Router();
@@ -22,8 +23,7 @@ router
   .get(getSubject)
   .delete(protect, authorize("admin"), deleteSubject)
   .put(protect, authorize("admin", "operator"), updateSubject);
-router
-  .route("/:id/photo")
-  .put(protect, authorize("admin", "operator"), uploadSubjectPhoto);
+router.route("/:id/photo").put(uploadSubjectPhoto);
+router.route("/:id/video").put(uploadSubjectVideo);
 
 module.exports = router;

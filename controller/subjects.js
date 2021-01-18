@@ -129,42 +129,6 @@ exports.updateSubject = asyncHandler(async (req, res, next) => {
   });
 });
 
-// PUT: api/v1/subjects/:id/photo
-exports.uploadSubjectPhoto = asyncHandler(async (req, res, next) => {
-  const subject = await Subject.findById(req.params.id);
-  if (!subject) {
-    throw new MyError(req.params.id + " ID бүхий хичээл байхгүй.", 400);
-  }
-
-  // image upload
-  const file = req.files.file;
-
-  if (!file.mimetype.startsWith("image")) {
-    throw new MyError("Та зураг upoad хийнэ үү.", 400);
-  }
-  if (file.size > process.env.MAX_UPLOAD_FILE_SIZE) {
-    throw new MyError("Та зурагны хэмжээ хэтэрсэн байна.", 400);
-  }
-
-  file.name = `photo_${req.params.id}${path.parse(file.name).ext}`;
-  file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`, (err) => {
-    if (err) {
-      throw new MyError(
-        "Файл хуулах явцад алдаа гарлаа. Алдаа: " + err.message,
-        400
-      );
-    }
-
-    subject.photo = file.name;
-    subject.save();
-
-    res.status(200).json({
-      success: true,
-      data: file.name,
-    });
-  });
-});
-
 // api/v1/lectures/:lecId/subjects
 exports.getLectureSubjects = asyncHandler(async (req, res, next) => {
   const page = parseInt(req.query.page) || 1;
@@ -189,5 +153,77 @@ exports.getLectureSubjects = asyncHandler(async (req, res, next) => {
     count: subjects.length,
     data: subjects,
     pagination,
+  });
+});
+
+// PUT: api/v1/subjects/:id/photo
+exports.uploadSubjectPhoto = asyncHandler(async (req, res, next) => {
+  const subject = await Subject.findById(req.params.id);
+  if (!subject) {
+    throw new MyError(req.params.id + " ID бүхий сэдэв байхгүй.", 400);
+  }
+
+  // image upload
+  const file = req.files.file;
+
+  if (!file.mimetype.startsWith("image")) {
+    throw new MyError("Та зураг upload хийнэ үү.", 400);
+  }
+  if (file.size > process.env.MAX_UPLOAD_FILE_SIZE) {
+    throw new MyError("Та зурагны хэмжээ хэтэрсэн байна.", 400);
+  }
+
+  file.name = `photo_${req.params.id}${path.parse(file.name).ext}`;
+  file.mv(`${process.env.FILE_UPLOAD_PATH}/image/${file.name}`, (err) => {
+    if (err) {
+      throw new MyError(
+        "Файл хуулах явцад алдаа гарлаа. Алдаа: " + err.message,
+        400
+      );
+    }
+
+    subject.photo = file.name;
+    subject.save();
+
+    res.status(200).json({
+      success: true,
+      data: file.name,
+    });
+  });
+});
+
+// PUT: api/v1/subjects/:id/video
+exports.uploadSubjectVideo = asyncHandler(async (req, res, next) => {
+  const subject = await Subject.findById(req.params.id);
+  if (!subject) {
+    throw new MyError(req.params.id + " ID бүхий сэдэв байхгүй.", 400);
+  }
+
+  // image upload
+  const file = req.files.file;
+
+  if (!file.mimetype.startsWith("video")) {
+    throw new MyError("Та видео upload хийнэ үү.", 400);
+  }
+  //if (file.size > process.env.MAX_UPLOAD_FILE_SIZE) {
+  //  throw new MyError("Та зурагны хэмжээ хэтэрсэн байна.", 400);
+  // }
+
+  file.name = `video_${req.params.id}${path.parse(file.name).ext}`;
+  file.mv(`${process.env.FILE_UPLOAD_PATH}/video/${file.name}`, (err) => {
+    if (err) {
+      throw new MyError(
+        "Файл хуулах явцад алдаа гарлаа. Алдаа: " + err.message,
+        400
+      );
+    }
+
+    subject.video = file.name;
+    subject.save();
+
+    res.status(200).json({
+      success: true,
+      data: file.name,
+    });
   });
 });

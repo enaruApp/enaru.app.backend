@@ -38,6 +38,10 @@ const UserSchema = new mongoose.Schema({
     required: [true, "Нууц үгээ оруулна уу"],
     select: false,
   },
+  photo: {
+    type: String,
+    default: "no-photo.jpg",
+  },
   resetPasswordToken: String,
   resetPasswordExpire: Date,
   createdAt: {

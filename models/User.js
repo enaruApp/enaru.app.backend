@@ -26,17 +26,23 @@ const UserSchema = new mongoose.Schema({
     enum: ["user", "operator"],
     default: "user",
   },
-  level: {
-    type: String,
-    required: [true, "Хэрэглэгчийн зэргийг оруулна уу"],
-    enum: ["Энгийн гишүүн", "Дэмжигч гишүүн", "Дэмч гишүүн"],
-    default: "Энгийн гишүүн",
-  },
   password: {
     type: String,
     minlength: 4,
     required: [true, "Нууц үгээ оруулна уу"],
     select: false,
+  },
+  level: {
+    type: String,
+    required: [true, "Хэрэглэгчийн зэргийг оруулна уу"],
+    enum: [
+      "Энгийн гишүүн",
+      "Дэмжигч гишүүн",
+      "Дэмжигч өрх",
+      "Бүтээлч гишүүн",
+      "Бүтээлч өрх",
+    ],
+    default: "Энгийн гишүүн",
   },
   photo: {
     type: String,

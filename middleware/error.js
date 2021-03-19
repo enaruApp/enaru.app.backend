@@ -1,4 +1,6 @@
 const errorHandler = (err, req, res, next) => {
+  console.log(err.stack.cyan.underline);
+
   const error = { ...err };
 
   error.message = err.message;
@@ -8,9 +10,9 @@ const errorHandler = (err, req, res, next) => {
     error.statusCode = 401;
   }
 
-  if (error.name === "CastError") {
-    error.message = "Буруу бүтэцтэй ID байна.";
-    error.statusCode = 400;
+  if (error.message === "jwt malformed") {
+    error.message = "Та логин хийж байж энэ үйлдлийг хийх боломжтой...";
+    error.statusCode = 401;
   }
 
   if (error.code === 11000) {

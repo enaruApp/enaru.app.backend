@@ -13,6 +13,7 @@ const cors = require("cors");
 const lecturesRoutes = require("./routes/lectures");
 const subjectsRoutes = require("./routes/subjects");
 const usersRoutes = require("./routes/users");
+const eventRoutes = require("./routes/event");
 
 // Аппын тохиргоог process.env ачаалах
 dotenv.config({ path: "./config/config.env" });
@@ -47,6 +48,7 @@ app.use(morgan("combined", { stream: accessLogStream }));
 app.use("/api/v1/lectures", lecturesRoutes);
 app.use("/api/v1/users", usersRoutes);
 app.use("/api/v1/subjects", subjectsRoutes);
+app.use("/api/v1/events", eventRoutes);
 app.use(errorHandler);
 
 const server = app.listen(

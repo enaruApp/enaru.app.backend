@@ -3,22 +3,27 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const UserSchema = new mongoose.Schema({
-  name: {
+  uNameF: {
     type: String,
-    required: [true, "Хэрэглэгчийн нэрийг оруулна уу"],
+    required: [true, "Хэрэглэгчийн овог оруулна уу"],
+  },
+  uNameL: {
+    type: String,
+    required: [true, "Хэрэглэгчийн нэр оруулна уу"],
+  },
+  phone: {
+    type: String,
+    unique: true,
+    required: [true, "Хэрэглэгчийн утасны дугаар оруулна уу"],
   },
   email: {
     type: String,
     required: [true, "Хэрэглэгчийн имэйл хаягийг оруулна уу"],
-    unique: true,
     match: [
       /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
       "Имэйл хаяг буруу байна.",
     ],
-  },
-  phone: {
-    type: String,
-    required: [true, "Хэрэглэгчийн утасны дугаар оруулна уу"],
+    default: "user@mail.com",
   },
   role: {
     type: String,
@@ -43,6 +48,34 @@ const UserSchema = new mongoose.Schema({
       "Бүтээлч өрх",
     ],
     default: "Энгийн гишүүн",
+  },
+  uGender: {
+    type: String,
+    required: [true, "Хэрэглэгчийн хүйс оруулна уу"],
+    enum: ["эрэгтэй", "эмэгтэй"],
+    default: "эрэгтэй",
+  },
+  uRegister: {
+    type: String,
+    default: "-",
+  },
+  fNameF: {
+    type: String,
+    default: "-",
+  },
+  fNameL: {
+    type: String,
+    default: "-",
+  },
+  fRegister: {
+    type: String,
+    default: "-",
+  },
+  uMember: {
+    type: String,
+    required: [true, "Хэрэглэгчийн хүйс оруулна уу"],
+    enum: ["эхнэр", "хүү", "охин", "ээж"],
+    default: "эхнэр",
   },
   photo: {
     type: String,

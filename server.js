@@ -31,7 +31,7 @@ const app = express();
 var whitelist = [
   "http://localhost:3000",
   "http://localhost:8000",
-  "http://128.199.248.252:8000",
+  "128.199.248.252:8000",
 ];
 var corsOptions = {
   origin: function (origin, callback) {

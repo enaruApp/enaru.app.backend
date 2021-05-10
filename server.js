@@ -28,7 +28,11 @@ var accessLogStream = rfs.createStream("access.log", {
 
 const app = express();
 
-var whitelist = ["http://localhost:3000", "http://localhost:8000"];
+var whitelist = [
+  "http://localhost:3000",
+  "http://localhost:8000",
+  "http://128.199.248.252:8000",
+];
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {

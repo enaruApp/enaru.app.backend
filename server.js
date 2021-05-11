@@ -28,10 +28,12 @@ var accessLogStream = rfs.createStream("access.log", {
 
 const app = express();
 
+app.use(express.static(path.join(__dirname, "public")));
+
 var whitelist = [
   "http://localhost:3000",
   "http://localhost:8000",
-  "128.199.248.252:8000",
+  "128.199.248.252",
 ];
 var corsOptions = {
   origin: function (origin, callback) {
